@@ -1,6 +1,5 @@
 package com.example.foodorderapp.view.navigation
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -13,6 +12,7 @@ import com.example.foodorderapp.view.main.CategoryScreen
 import com.example.foodorderapp.view.main.HomeScreen
 import com.example.foodorderapp.view.main.SearchScreen
 import com.example.foodorderapp.viewmodel.FirebaseViewModel
+import com.example.foodorderapp.viewmodel.FirestoreViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -20,7 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun NavigationScreen(
     firebaseViewModel: FirebaseViewModel,
     isUserLogin: Boolean,
-    firestore: FirebaseFirestore
+    firestore: FirebaseFirestore,
+    firestoreViewModel: FirestoreViewModel
 ) {
 
     val navController = rememberNavController()
@@ -48,15 +49,19 @@ fun NavigationScreen(
             HomeScreen(navController)
         }
         composable("searchScreen") {
-            SearchScreen()
+            SearchScreen(firestoreViewModel)
         }
-        composable("category/{category}") { backStackEntry ->
+        composable(
+            "categoryScreen/{category}",
+            arguments = listOf(navArgument("category") { type = NavType.StringType })
+        ) { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category").orEmpty()
             CategoryScreen(
-                navController,
-                category = category
+                navController = navController,
+                category = category,
+                firestoreViewModel = firestoreViewModel,
+                //cartViewModel = TODO()
             )
         }
-
     }
 }

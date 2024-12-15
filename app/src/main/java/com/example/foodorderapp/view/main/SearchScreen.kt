@@ -4,11 +4,9 @@ package com.example.foodorderapp.view.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,21 +19,15 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,12 +46,14 @@ import com.example.foodorderapp.R
 import com.example.foodorderapp.data.DbResult
 import com.example.foodorderapp.view.main.components.ItemDesign
 import com.example.foodorderapp.view.main.components.ShimmerItemBox
+import com.example.foodorderapp.viewmodel.CartViewModel
 import com.example.foodorderapp.viewmodel.FirestoreViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    firestoreViewModel: FirestoreViewModel = viewModel()
+    firestoreViewModel: FirestoreViewModel,
+    cartViewModel: CartViewModel = viewModel()
 ) {
     var searchProduct by remember { mutableStateOf("") }
     val productState by firestoreViewModel.productState.collectAsState()
@@ -114,8 +108,10 @@ fun SearchScreen(
                         singleLine = true
                     )
                 },
-                title = TODO(),
-                modifier = Modifier.fillMaxWidth().padding(5.dp),
+                title = { Text("Search") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
             )
         }
     ) { innerPadding ->
@@ -170,8 +166,10 @@ fun SearchScreen(
                                 ItemDesign(
                                     product,
                                     onProductAddClick = {
-                                       // isDialogVisible = true
-                                    }
+                                       cartViewModel.incrementItemCount()
+                                    },
+                                    cartViewModel
+
                                 )
 //                                if (isDialogVisible) {
 //                                    EditProductScreen(
