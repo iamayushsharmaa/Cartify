@@ -18,7 +18,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object Module {
 
-
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
@@ -38,8 +37,7 @@ object Module {
     @Singleton
     fun provideFirestoreRepository(
         firestore: FirebaseFirestore,
-        sharedPreferences: SharedPreferences
     ): FirestoreRepository {
-        return FirestoreRepositoryImpl(firestore, sharedPreferences)
+        return FirestoreRepositoryImpl(firestore )
     }
 }

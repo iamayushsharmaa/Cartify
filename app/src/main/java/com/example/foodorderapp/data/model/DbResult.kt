@@ -1,4 +1,4 @@
-package com.example.foodorderapp.data
+package com.example.foodorderapp.data.model
 
 
 sealed class DbResult<out T> {

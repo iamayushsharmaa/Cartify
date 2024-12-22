@@ -23,9 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,17 +34,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.foodorderapp.R
-import com.example.foodorderapp.data.ProductItemData
-import com.example.foodorderapp.viewmodel.CartViewModel
+import com.example.foodorderapp.data.model.ProductItemData
 
 @Composable
 fun ItemDesign(
     mainProductData: ProductItemData,
     onProductAddClick: () -> Unit,
-    cartViewModel: CartViewModel
+    onIncrementClick : () -> Unit,
+    onDecrementClick : () -> Unit,
+    itemCount : Int
 ) {
-
-    val itemCount by cartViewModel.itemCount.observeAsState(0)
     Column(
         modifier = Modifier
             .height(315.dp)
@@ -132,7 +128,7 @@ fun ItemDesign(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    IconButton(onClick = {cartViewModel.decrementItemCount()}) {
+                    IconButton(onClick = { onDecrementClick() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.minus_svg), // Replace with actual icon resource
                             contentDescription = "Remove Item",
@@ -145,7 +141,7 @@ fun ItemDesign(
                         color = Color.White,
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
-                    IconButton(onClick = { cartViewModel.incrementItemCount() }) {
+                    IconButton(onClick = { onIncrementClick()}) {
                         Icon(
                             painter = painterResource(id = R.drawable.add_svg), // Replace with actual icon resource
                             contentDescription = "Add Item",
@@ -158,23 +154,27 @@ fun ItemDesign(
         }
     }
 }
-val mockProduct = ProductItemData(
-    productTitle = "Sample Product",
-    quantityInKg = "2",
-    priceInRs = "200",
-    unit = "Kg",
-    noOfStocks = "50",
-    productCategory = "Electronics",
-    productType = "Gadget",
-    productImages = listOf(Uri.parse("https://example.com/product_image.jpg")),
-    productRating = 4.5f
-)
-@Preview
-@Composable
-private fun ItemdesignPreview() {
-    ItemDesign(
-        mockProduct,
-        onProductAddClick = {},
-        cartViewModel = viewModel()
-    )
-}
+//val mockProduct = ProductItemData(
+//    productTitle = "Sample Product",
+//    quantityInKg = "2",
+//    priceInRs = "200",
+//    unit = "Kg",
+//    noOfStocks = "50",
+//    productCategory = "Electronics",
+//    productType = "Gadget",
+//    productImages = listOf(Uri.parse("https://example.com/product_image.jpg")),
+//    productId = TODO(),
+//    adminUid = TODO(),
+//    productRating = TODO(),
+//)
+//@Preview
+//@Composable
+//private fun ItemdesignPreview() {
+//    ItemDesign(
+//        mockProduct,
+//        onProductAddClick = {},
+//        itemCount = 1,
+//        onIncrementClick = TODO(),
+//        onDecrementClick = TODO()
+//    )
+//}

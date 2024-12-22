@@ -1,4 +1,4 @@
-package com.example.foodorderapp.data
+package com.example.foodorderapp.data.model
 
 data class SignUpUiState(
     val otpLength: Int = 6,

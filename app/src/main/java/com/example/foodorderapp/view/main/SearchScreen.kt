@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.foodorderapp.R
-import com.example.foodorderapp.data.DbResult
+import com.example.foodorderapp.data.model.DbResult
 import com.example.foodorderapp.view.main.components.ItemDesign
 import com.example.foodorderapp.view.main.components.ShimmerItemBox
 import com.example.foodorderapp.viewmodel.CartViewModel
@@ -58,6 +59,9 @@ fun SearchScreen(
     var searchProduct by remember { mutableStateOf("") }
     val productState by firestoreViewModel.productState.collectAsState()
 
+    val isCartVisible by cartViewModel.isCartVisible.observeAsState(false)
+    val itemCount by cartViewModel.itemCount.observeAsState(0)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -70,7 +74,10 @@ fun SearchScreen(
                 actions = {
                     OutlinedTextField(
                         value = searchProduct,
-                        onValueChange = { searchProduct = it },
+                        onValueChange = {
+                            searchProduct = it
+                            firestoreViewModel.updateSearchQuery(searchProduct)
+                        },
                         label = { Text("Search") },
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
@@ -166,10 +173,16 @@ fun SearchScreen(
                                 ItemDesign(
                                     product,
                                     onProductAddClick = {
-                                       cartViewModel.incrementItemCount()
+                                        cartViewModel.addProductToCart(product)
+                                        cartViewModel.incrementItemCount(product)
                                     },
-                                    cartViewModel
-
+                                    onIncrementClick = {
+                                        cartViewModel.incrementItemCount(product)
+                                    },
+                                    onDecrementClick = {
+                                        cartViewModel.decrementItemCount(product)
+                                    },
+                                    itemCount = itemCount
                                 )
 //                                if (isDialogVisible) {
 //                                    EditProductScreen(

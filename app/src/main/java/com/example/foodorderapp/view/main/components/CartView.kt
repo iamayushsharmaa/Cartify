@@ -1,8 +1,7 @@
 package com.example.foodorderapp.view.main.components
 
-
-
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,11 +32,11 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImagePainter.State.Empty.painter
 import com.example.foodorderapp.R
 
-
 @Composable
 fun CartView(
     itemCount: Int,
-    onCheckout : () -> Unit
+    onCheckout : () -> Unit,
+    onCartItemClick : () -> Unit
 ) {
     Row (
         modifier = Modifier
@@ -49,7 +48,10 @@ fun CartView(
             modifier = Modifier
                 .height(80.dp)
                 .width(195.dp)
-                .padding(12.dp),
+                .padding(12.dp)
+                .clickable {
+                    onCartItemClick()
+                },
             colors = CardDefaults.cardColors(
                 contentColor = Color.White,
                 containerColor = Color(0xFF434343)
@@ -124,17 +126,5 @@ fun CartView(
                 )
             }
         }
-
     }
-
-}
-
-@Preview
-@Composable
-private fun CartPrev() {
-    CartView(
-        itemCount= 1,
-        onCheckout = {}
-    )
-
 }

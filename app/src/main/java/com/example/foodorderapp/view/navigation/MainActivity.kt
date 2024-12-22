@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var auth : FirebaseAuth
-    val firestore= Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 val firebaseViewModel: FirebaseViewModel by viewModels()
                 val firestoreViewModel = hiltViewModel<FirestoreViewModel>()
                 val isUserLogin = auth.currentUser != null
-                NavigationScreen(firebaseViewModel, isUserLogin, firestore,firestoreViewModel)
+                NavigationScreen(firebaseViewModel, isUserLogin,firestoreViewModel)
             }
         }
     }

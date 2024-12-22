@@ -6,8 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.foodorderapp.view.login.OtpVerificationScreen
-import com.example.foodorderapp.view.login.PhoneSignIn
+import com.example.foodorderapp.view.login.Login
 import com.example.foodorderapp.view.main.CategoryScreen
 import com.example.foodorderapp.view.main.HomeScreen
 import com.example.foodorderapp.view.main.SearchScreen
@@ -20,30 +19,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun NavigationScreen(
     firebaseViewModel: FirebaseViewModel,
     isUserLogin: Boolean,
-    firestore: FirebaseFirestore,
     firestoreViewModel: FirestoreViewModel
 ) {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "homeScreen"
-    //if (isUserLogin) "homeScreen" else "signInScreen"
+    NavHost(navController = navController, startDestination = if (isUserLogin) "homeScreen" else "login"
     ){
-        composable("signInScreen") {
-            PhoneSignIn(
+        composable("login") {
+            Login(
                 navController,
-                firebaseViewModel = firebaseViewModel
             )
-        }
-        composable("otpVerificationScreen/{phoneNumber}",
-            arguments = listOf(navArgument("phoneNumber"){
-                type = NavType.StringType
-            })
-            ) {backStackEnry ->
-            val phoneNumber = backStackEnry.arguments?.getString("phoneNumber")
-            if (phoneNumber != null) {
-                OtpVerificationScreen(navController, phoneNumber,firebaseViewModel,firestore)
-            }
         }
         composable("homeScreen") {
             HomeScreen(navController)

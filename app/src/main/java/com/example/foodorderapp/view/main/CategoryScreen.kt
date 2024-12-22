@@ -1,5 +1,6 @@
 package com.example.foodorderapp.view.main
 
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,9 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.foodorderapp.R
-import com.example.foodorderapp.data.DbResult
+import com.example.foodorderapp.data.model.DbResult
+import com.example.foodorderapp.utils.toCartProduct
 import com.example.foodorderapp.view.main.components.CartView
 import com.example.foodorderapp.view.main.components.ItemDesign
 import com.example.foodorderapp.view.main.components.ShimmerItemBox
@@ -158,9 +157,16 @@ fun CategoryScreen(
                                 ItemDesign(
                                     product,
                                     onProductAddClick = {
-                                        cartViewModel.incrementItemCount()
+                                        cartViewModel.addProductToCart(product)
+                                        cartViewModel.incrementItemCount(product)
                                     },
-                                    cartViewModel = cartViewModel
+                                    onIncrementClick = {
+                                        cartViewModel.incrementItemCount(product)
+                                    },
+                                    onDecrementClick = {
+                                        cartViewModel.decrementItemCount(product)
+                                    },
+                                    itemCount = itemCount
                                 )
                             }
 

@@ -1,10 +1,10 @@
 package com.example.foodorderapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.foodorderapp.data.DbResult
-import com.example.foodorderapp.data.ProductItemData
+import com.example.foodorderapp.data.model.DbResult
+import com.example.foodorderapp.data.model.ProductItemData
 import com.example.foodorderapp.repository.firestore.FirestoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +45,7 @@ class FirestoreViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 productState.map { state ->
+                    Log.d("data", "observeSearchQuery: ${state} ")
                     if (state is DbResult.Success) state.data else emptyList()
                 },
                 searchQuery
@@ -52,6 +53,7 @@ class FirestoreViewModel @Inject constructor(
                 filterProducts(products, query)
             }.collect { filteredList ->
                 _filteredProducts.value = filteredList
+                Log.d("data", "observeSearchQuery: ${_filteredProducts.value} ")
             }
         }
     }

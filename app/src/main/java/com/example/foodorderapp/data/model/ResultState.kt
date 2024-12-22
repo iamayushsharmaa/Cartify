@@ -1,4 +1,4 @@
-package com.example.foodorderapp.data
+package com.example.foodorderapp.data.model
 
 sealed class ResultState<out T> {
     object Idle : ResultState<Nothing>() // Represents an idle or initial state

@@ -1,9 +1,12 @@
 package com.example.foodorderapp.view.main
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -49,13 +52,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.foodorderapp.R
-import com.example.foodorderapp.data.Category
+import com.example.foodorderapp.data.model.Category
 import com.example.foodorderapp.utils.Constants.allProductCategory
 import com.example.foodorderapp.utils.Constants.allProductCategoryIcon
+import com.example.foodorderapp.view.main.components.CartBottomSheet
+import com.example.foodorderapp.view.main.components.CartView
 import com.example.foodorderapp.view.main.components.CategoryItemDesign
 import com.example.foodorderapp.viewmodel.CartViewModel
 import kotlinx.coroutines.delay
@@ -64,7 +70,7 @@ private val TOP_BAR_HEIGHT = 250.dp
 @Composable
 fun HomeScreen(
     navController: NavController,
-    cartViewModel: CartViewModel = viewModel()
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -221,6 +227,7 @@ fun HomeScreenLayout(
     cartViewModel: CartViewModel
 ) {
 
+    var showBottomSheetCart by remember { mutableStateOf(false) }
     val isCartVisible by cartViewModel.isCartVisible.observeAsState(false)
     val itemCount by cartViewModel.itemCount.observeAsState(0)
 
@@ -268,6 +275,28 @@ fun HomeScreenLayout(
                 }
             }
         }
+
+        AnimatedVisibility(
+            visible = isCartVisible,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            CartView(
+                itemCount = itemCount,
+                onCheckout = {},
+                onCartItemClick = {
+                    showBottomSheetCart = true
+                }
+            )
+        }
+        if (showBottomSheetCart){
+            CartBottomSheet(
+                onDismiss = { showBottomSheetCart = false }
+            )
+        }
+
     }
 }
 
