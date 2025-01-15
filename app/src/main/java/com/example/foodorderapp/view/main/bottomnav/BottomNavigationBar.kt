@@ -30,7 +30,8 @@ fun BottomNavigationBar(
     NavigationBar (
         containerColor = Color.White,
         modifier = Modifier
-            .padding(top = 8.dp)
+            .height(66.dp)
+            .padding(bottom = 8.dp)
             .background(Color.White)
     ){
         bottomNavItems.forEach { item ->
@@ -39,18 +40,9 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.outlineIcon),
-                        contentDescription = item.title,
+                        contentDescription = "",
                         modifier = Modifier.size(28.dp),
                         tint = if (isSelected) Color.Black else Color.Gray
-                    )
-                },
-                label = {
-                    Text(
-                        text = item.title,
-                        fontFamily = poppinsFontFamily,
-                        fontSize = 10.sp,
-                        modifier = Modifier.padding(top = 4.dp),
-                        color = if (isSelected) Color.Black else Color.Gray
                     )
                 },
                 selected = isSelected,

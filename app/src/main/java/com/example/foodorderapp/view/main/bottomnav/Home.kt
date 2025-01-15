@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -74,12 +75,12 @@ fun Home(
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(horizontal = 14.dp)
     ){
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp),
+                .padding(horizontal = 5.dp, vertical = 5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ){
@@ -114,36 +115,46 @@ fun Home(
         )
         Spacer(Modifier.height(10.dp))
 
-        Box(
+        Card (
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
-                .padding(horizontal = 14.dp, vertical = 8.dp)
-                .background(shape = RoundedCornerShape(22.dp), color = Color.Transparent)
+                .padding(horizontal = 3.dp,vertical = 8.dp),
+            shape = RoundedCornerShape(20.dp)
         ){
-            Image(
-                painter = painterResource(id = R.drawable.slider_image),
-                contentDescription = "banner image",
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(shape = RoundedCornerShape(22.dp), color = Color.Transparent)
-                    .align(Alignment.Center),
-                contentScale = ContentScale.Crop
-            )
-        }
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.slider_image),
+                    contentDescription = "banner image",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(shape = RoundedCornerShape(22.dp), color = Color.Transparent)
+                        .align(Alignment.Center),
+                    contentScale = ContentScale.Crop
+                )
+            }
 
-        Column (modifier = Modifier.padding(5.dp)){
+        }
+        Column (
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+        ){
             Text(
                 text = "Category",
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 22.sp,
+                modifier = Modifier
+                    .padding(bottom = 5.dp)
             )
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 2.dp),
+                    .padding(horizontal = 4.dp),
                 contentPadding = PaddingValues(2.dp)
             ) {
                 items(categories) { categoryItem ->

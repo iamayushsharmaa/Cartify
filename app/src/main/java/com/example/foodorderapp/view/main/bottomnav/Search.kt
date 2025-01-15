@@ -69,7 +69,7 @@ fun Search(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(horizontal = 14.dp, vertical = 8.dp)
             .background(Color.White)
     ) {
         Row (
