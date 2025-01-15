@@ -19,7 +19,6 @@ class FirebaseViewModel @Inject constructor(
     private val firestoreDb: AuthFirestoreRepository
 ) : ViewModel(){
 
-
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState: StateFlow<AuthState> = _authState
 

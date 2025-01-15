@@ -1,15 +1,13 @@
 package com.example.foodorderapp.data.room
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.foodorderapp.data.model.CartProduct
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class CartRepository @Inject constructor(
-    private val cartDao: CartDao,
+    private val cartDatabase: CartDatabase,
     private val sharedPreferences: SharedPreferences,
 ) {
 
@@ -17,33 +15,33 @@ class CartRepository @Inject constructor(
     private val PREF_IS_CART_VISIBLE = "pref_is_cart_visible"
 
     suspend fun getAllCartProducts() : Flow<List<CartProduct>> {
-        return cartDao.getAllCartProducts()
+        return cartDatabase.cartDao().getAllCartProducts()
     }
 
     suspend fun insertCartProduct(cartProduct: CartProduct) {
-        cartDao.insertCartProduct(cartProduct)
+        cartDatabase.cartDao().insertCartProduct(cartProduct)
     }
 
 
     suspend fun updateCartProduct(cartProduct: CartProduct) {
-        cartDao.updateCartProduct(cartProduct)
+        cartDatabase.cartDao().updateCartProduct(cartProduct)
     }
 
     suspend fun deleteCartProduct(productId: String) {
-        cartDao.deleteCartProductById(productId)
+        cartDatabase.cartDao().deleteCartProductById(productId)
     }
 
     suspend fun getCartProductByProductId(productId: String): CartProduct? {
-        return cartDao.getProductById(productId)
+        return cartDatabase.cartDao().getProductById(productId)
     }
     suspend fun updateProductCount(productId: String, newCount: Int) {
-        val cartProduct = cartDao.getAllCartProducts().firstOrNull()?.find { it.productId == productId }
+        val cartProduct = cartDatabase.cartDao().getAllCartProducts().firstOrNull()?.find { it.productId == productId }
         if (cartProduct != null) {
             val updatedProduct = cartProduct.copy(productCount = newCount)
             if (newCount > 0) {
-                cartDao.updateCartProduct(updatedProduct)
+                cartDatabase.cartDao().updateCartProduct(updatedProduct)
             } else {
-                cartDao.deleteCartProductById(productId)
+                cartDatabase.cartDao().deleteCartProductById(productId)
             }
         }
     }

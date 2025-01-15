@@ -17,9 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.foodorderapp.ui.theme.poppinsFontFamily
 
 @Composable
 fun ProgressDialog(
@@ -34,8 +37,8 @@ fun ProgressDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .background(color = MaterialTheme.colorScheme.secondary, shape = RoundedCornerShape(12.dp))
-                    .padding(24.dp),
+                    .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+                    .padding(27.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
@@ -43,15 +46,17 @@ fun ProgressDialog(
                     verticalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(50.dp),
-                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(60.dp),
+                        color = Color.Black,
                         strokeWidth = 7.dp
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         text = text,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        fontFamily = poppinsFontFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp,
+                        color = Color.Black
                     )
                 }
             }

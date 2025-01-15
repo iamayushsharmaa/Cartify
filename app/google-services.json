@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:174347879233:android:0165477b2ac1af919797c0",
+        "android_client_info": {
+          "package_name": "com.example.adminblinkitclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174347879233-40nregvp5rj0n815jigla6uk0ek7l6tl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6PrwqDiJds3RUDjYiChlAj_wYMld7Nsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174347879233-40nregvp5rj0n815jigla6uk0ek7l6tl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:174347879233:android:d73017405426313b9797c0",
         "android_client_info": {
           "package_name": "com.example.foodorderapp"
